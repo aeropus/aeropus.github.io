@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kraket Browser Download</title>
+<style>
+    body {
+        font-family: system-ui, Inter, Segoe UI, Roboto, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--fg);
+        --bg: #ffffff;
+        --fg: #000000;
+        --card: #f4f4f4;
+        --btn-bg: #00c47a;
+        --btn-fg: #0e0e0e;
+        --accent: #00c47a;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body {
+            --bg: #0e0e0e;
+            --fg: #f0f0f0;
+            --card: #1a1a1a;
+            --btn-bg: #00ff99;
+            --btn-fg: #0e0e0e;
+            --accent: #00ff99;
+        }
+    }
+
+    .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    .card {
+        background: var(--card);
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 1rem;
+        opacity: 0.85;
+        margin-bottom: 25px;
+    }
+
+    .logo {
+        width: 120px;
+        margin-bottom: 20px;
+    }
+
+    .download-btn {
+        display: inline-block;
+        padding: 14px 26px;
+        font-size: 1.2rem;
+        border-radius: 18px;
+        text-decoration: none;
+        background: var(--btn-bg);
+        color: var(--btn-fg);
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .download-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .step {
+        margin-top: 30px;
+    }
+
+    .step img {
+        width: 100%;
+        border-radius: 12px;
+        margin-top: 10px;
+    }
+
+    .step h3 {
+        margin-bottom: 6px;
+        color: var(--accent);
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <!-- Logo -->
+        <img src="kraket.png" alt="Kraket Browser Logo" class="logo">
+
+        <h1>Kraket Browser – Download</h1>
+        <p>Dateigröße: ca. 130 MB</p>
+
+        <!-- Direktlink zum Google Drive Download -->
+        <a class="download-btn" href="https://drive.google.com/uc?export=download&id=1qbnXs9iHrGoTh84yXtp_iD4ZPecwXeUG" download>
+            ⬇ Jetzt herunterladen
+        </a>
+    </div>
+
+    <div class="steps">
+        <h2>📥 So lädst du den Kraket Browser herunter</h2>
+
+        <div class="step">
+            <h3>1. Auf „Herunterladen“ klicken</h3>
+            <p>Der Download öffnet sich in einem neuen Tab.</p>
+            <img src="1.png" alt="Schritt 1">
+        </div>
+
+        <div class="step">
+            <h3>2. Sicherheitswarnung beachten</h3>
+            <p>Google kann große Dateien nicht automatisch auf Viren prüfen. Das ist normal.</p>
+            <img src="2.png" alt="Schritt 2">
+        </div>
+
+        <div class="step">
+            <h3>3. Auf „Trotzdem herunterladen“ klicken</h3>
+            <p>Der Download beginnt sofort.</p>
+            <img src="3.png" alt="Schritt 3">
+        </div>
+
+        <div class="step">
+            <h3>4. ZIP extrahieren</h3>
+            <p>Gehe in deinen Datei-Explorer, und klicke mit der rechten</p> <p>Maustaste auf die ZIP-Datei <code>krinternet_1.0.1_setup.zip</code> und wähle "Alle extrahieren.</p>
+            <img src="4.png" alt="Schritt 4">
+        </div>
+
+        <div class="step">
+            <h3>5. Installer starten</h3>
+            <p>Nach dem Download kannst du die Datei direkt ausführen. Windows kann eine Smartscreen-Warnung anzeigen, das ist normal.</p>
+            <img src="5.png" alt="Schritt 5">
+        </div>
+    </div>
+</div>
+</body>
+</html>
