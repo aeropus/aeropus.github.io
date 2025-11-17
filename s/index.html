@@ -1,39 +1,120 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>Aeropus – Willkommen</title>
-<style>
-  body { font-family: 'Arial', sans-serif; margin:0; background:#f0f0f0; color:#111; }
-  header { background:#000; color:#fff; text-align:center; padding:50px 20px; }
-  header h1 { font-size:3em; color:#fff; }
-  header p { font-size:1.2em; margin-top:10px; color:#fff; }
-  main { max-width:900px; margin:40px auto; padding:0 20px; line-height:1.6; }
-  main h2 { color:#222; margin-top:30px; }
-  main p { margin-bottom:20px; }
-  .cta { display:block; text-align:center; margin:40px 0; }
-  .cta a { background:#00aaff; color:#fff; padding:15px 30px; border-radius:10px; text-decoration:none; font-weight:bold; transition:0.3s; }
-  .cta a:hover { background:#0077cc; }
-  .highlight { color:#00ff77; font-weight:bold; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aeropus – Startseite</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    /* Obere Leiste fixiert */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: #111;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    /* Burger Menü */
+    .burger {
+      width: 28px;
+      cursor: pointer;
+    }
+    .burger div {
+      height: 4px;
+      background: white;
+      margin: 5px 0;
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+
+    /* Seitenmenü */
+    #menu {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: #222;
+      color: white;
+      transition: 0.3s;
+      padding-top: 70px;
+    }
+
+    #menu a {
+      display: block;
+      padding: 15px 20px;
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+    }
+    #menu a:hover {
+      background: #333;
+    }
+
+    .open {
+      left: 0 !important;
+    }
+
+    /* Inhalt */
+    main {
+      padding: 90px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #0f0;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>Willkommen bei Aeropus</h1>
-  <p>Wo Kraken fliegen, Noobs wachsen und Ideen zum Leben erwachen! 🖤🤍💚</p>
-</header>
-<main>
-  <p>Tauche ein in die Welt von <span class="highlight">Aeropus</span>, einem Ort, an dem Fantasie, Technik und Abenteuer aufeinandertreffen. Hier ist jeder Noob ein Held, und jede Tentakelidee eines unserer Krakenprojekte hat das Potenzial, die digitale Welt zu erobern.</p>
+  <header>
+    <div class="logo">Aeropus</div>
+    <div class="burger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </header>
 
-  <h2>Warum Aeropus?</h2>
-  <p>🐙 <strong>Kraken-Power:</strong> Flexibel, clever, überraschend. Unsere Tools und Features sind wie Tentakel, die sich in jede Richtung ausstrecken – und dich unterstützen, egal wohin deine Ideen gehen.</p>
-  <p>🎮 <strong>Noob-Friendly:</strong> Keine Angst vor Fehlern! Bei uns darf jeder Noob stolpern, lachen und lernen. Wir verwandeln kleine Missgeschicke in große Abenteuer.</p>
-  <p>🚀 <strong>Abenteuer-Modus:</strong> Kreative Projekte, spannende Challenges und digitale Experimente erwarten dich. Hier gibt es kein “zu klein” oder “zu verrückt” – nur Möglichkeiten, Neues zu entdecken.</p>
-  <p>🌊 <strong>Tiefe trifft Freiheit:</strong> Genau wie ein Ozean voller Geheimnisse ist auch Aeropus ein Ort, an dem du eintauchen, abtauchen und immer wieder Neues finden kannst.</p>
+  <nav id="menu">
+    <a href="#willkommen">Start</a>
+    <a href="#projekte">Projekte</a>
+    <a href="/d/download-center/index.html">Aeropus Downloadcenter</a>
+    <a href="https://dasfohlen1900.github.io/seite1.html">Mini-Office</a>
+    <a href="https://dasfohlen1900.github.io/license/">Octopus License Information</a>
+  </nav>
 
-  <div class="cta">
-    <a href="/kraketsearch/">Jetzt eintauchen</a>
-  </div>
-</main>
+  <main>
+    <section id="willkommen">
+      <h1>Willkommen bei Aeropus</h1>
+<p>Ob Texte schreiben und teilen bei Mini-Word, oder aber mit Stolz deine eigenen Dokumente gestalten – bei Aeropus bist du der Autor deiner Ideen.</p>
+    </section>
+    <section id="projekte">
+  </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("open");
+    }
+  </script>
 </body>
 </html>
