@@ -5,20 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Welches AeroPhone passt zu mir?</title>
 <style>
-body { font-family: Arial, sans-serif; background:#f4f4f4; color:#222; margin:0; padding:20px; display:flex; flex-direction:column; align-items:center; }
-.container { max-width:600px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 0 15px rgba(0,0,0,0.2);}
-h1 { text-align:center; }
-button { padding:10px 15px; font-size:1em; margin-top:10px; cursor:pointer; }
-#result { font-size:1.5em; font-weight:bold; margin-top:20px; text-align:center; }
+ @font-face {
+      font-family: 'Aeropus UI II';
+      src: url('dasfohlen1900.github.io/mini-word/assets/fonts/AeropusUIII-Regular.otf') format('woff2'),
+      font-weight: 400;
+      font-style: normal;
+    }
+body { font-family: 'Aeropus UI II', Tahoma, sans-serif; background: #f0f2f5; margin:0; padding:0; display:flex; flex-direction:column; align-items:center; }
+h1 { text-align:center; margin:20px; color:#111; }
+.container { max-width:700px; width:90%; background:#fff; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.15); transition:0.3s; }
+.progress { height:8px; background:#e0e0e0; border-radius:4px; margin-bottom:20px; overflow:hidden; }
+.progress-bar { height:100%; width:0%; background:#007bff; transition:width 0.3s; }
+.question { font-size:1.2em; margin-bottom:20px; }
+.answers { display:flex; flex-direction:column; gap:15px; }
+.answer { background:#f9f9f9; padding:15px; border-radius:10px; cursor:pointer; box-shadow:0 3px 6px rgba(0,0,0,0.1); transition: all 0.2s; text-align:center; font-weight:bold; }
+.answer:hover { transform:scale(1.03); background:#e6f0ff; box-shadow:0 5px 10px rgba(0,0,0,0.15); }
+.answer.selected { border:2px solid #007bff; background:#d0e5ff; }
+#result { font-size:1.5em; font-weight:bold; margin-top:20px; text-align:center; color:#007bff; }
+button { display:none; }
 </style>
 </head>
 <body>
 
 <h1>Welches AeroPhone passt zu mir?</h1>
 <div class="container" id="quiz">
-  <p id="question"></p>
-  <div id="answers"></div>
-  <button id="nextBtn">Nächste Frage</button>
+  <div class="progress"><div class="progress-bar" id="progress"></div></div>
+  <div class="question" id="question"></div>
+  <div class="answers" id="answers"></div>
 </div>
 <div id="result"></div>
 
@@ -28,20 +41,20 @@ const questions = [
   { q:"Wie viel möchtest du ausgeben?", a:["Günstig","Mittel","Hoch","Sehr Hoch"], scores:[0,1,2,3] },
   { q:"Nutzt du dein Handy viel für Fotos?", a:["Nein","Ja, normal","Ja, viele Fotos"], scores:[0,1,2] },
   { q:"Spiele am Smartphone?", a:["Nie","Ab und zu","Viel"], scores:[0,1,2] },
-  { q:"Brauche ich viel Zubehör (Hülle, Stylus, Powerbank)?", a:["Nein","Ein bisschen","Ja, viele Extras"], scores:[0,1,2] },
+  { q:"Brauche ich viel Zubehör?", a:["Nein","Ein bisschen","Ja, viele Extras"], scores:[0,1,2] },
   { q:"Liegt Wert auf Design/Exklusivität?", a:["Nein","Ein bisschen","Sehr"], scores:[0,1,2] },
   { q:"Brauche ich maximale Performance?", a:["Nein","Normal","Ja"], scores:[0,1,2] },
   { q:"Willst du große Apps/Spiele installieren?", a:["Nein","Manchmal","Viele"], scores:[0,1,2] },
   { q:"Video-Streaming wichtig?", a:["Selten","Gelegentlich","Viel"], scores:[0,1,2] },
-  { q:"Musik hören viel?", a:["Nein","Ja, normal","Ja, viel"], scores:[0,1,2] },
+  { q:"Willst du viel Musik hören?", a:["Nein","Ja, normal","Ja, viel"], scores:[0,1,2] },
   { q:"Arbeit am Handy (Office/Pro Apps)?", a:["Nein","Ein bisschen","Viel"], scores:[0,1,2] },
   { q:"Willst du lange Akkulaufzeit?", a:["Nein","Normal","Ja, viel"], scores:[0,1,2] },
   { q:"Brauche ich Multi-Tasking?", a:["Nein","Normal","Ja, intensiv"], scores:[0,1,2] },
   { q:"Fotobearbeitung am Handy?", a:["Nein","Ein bisschen","Ja, oft"], scores:[0,1,2] },
   { q:"Videoaufnahme wichtig?", a:["Nein","Ein bisschen","Ja, viel"], scores:[0,1,2] },
-  { q:"Reise häufig? (Mobiler Speicher/Backup)", a:["Nein","Manchmal","Ja, oft"], scores:[0,1,2] },
+  { q:"Reise häufig?", a:["Nein","Manchmal","Ja, oft"], scores:[0,1,2] },
   { q:"Lieber leicht und kompakt?", a:["Ja","Mittel","Nein"], scores:[2,1,0] },
-  { q:"Willst du die neueste OS-Version voll nutzen?", a:["Nein","Normal","Ja"], scores:[0,1,2] },
+  { q:"Neueste OS-Version voll nutzen?", a:["Nein","Normal","Ja"], scores:[0,1,2] },
   { q:"Benötige spezielle Hardware-Tasten?", a:["Nein","Manchmal","Ja, intensiv"], scores:[0,1,2] },
   { q:"Willst du das Top-Modell für Profis?", a:["Nein","Vielleicht","Ja"], scores:[0,1,2] },
 ];
@@ -51,7 +64,7 @@ let totalScore = 0;
 
 const questionEl = document.getElementById("question");
 const answersEl = document.getElementById("answers");
-const nextBtn = document.getElementById("nextBtn");
+const progressEl = document.getElementById("progress");
 const resultEl = document.getElementById("result");
 
 function showQuestion() {
@@ -59,28 +72,31 @@ function showQuestion() {
   questionEl.textContent = `${currentQuestion+1}. ${q.q}`;
   answersEl.innerHTML = "";
   q.a.forEach((ans,i)=>{
-    const btn = document.createElement("button");
-    btn.textContent = ans;
-    btn.onclick = ()=> { totalScore += q.scores[i]; nextQuestion(); };
-    answersEl.appendChild(btn);
+    const div = document.createElement("div");
+    div.className="answer";
+    div.textContent=ans;
+    div.onclick = ()=>{
+      totalScore+=q.scores[i];
+      currentQuestion++;
+      updateProgress();
+      if(currentQuestion<questions.length) showQuestion();
+      else showResult();
+    };
+    answersEl.appendChild(div);
   });
 }
 
-function nextQuestion() {
-  currentQuestion++;
-  if(currentQuestion < questions.length){
-    showQuestion();
-  } else {
-    showResult();
-  }
+function updateProgress(){
+  const percent = ((currentQuestion)/questions.length)*100;
+  progressEl.style.width=percent+"%";
 }
 
-function showResult() {
-  let model = "";
+function showResult(){
+  let model="";
   if(totalScore <= 15) model = "AeroPhone II";
   else if(totalScore <= 30) model = "AeroPhone II Pro";
   else model = "AeroPhone II Premium";
-  document.getElementById("quiz").style.display = "none";
+  document.getElementById("quiz").style.display="none";
   resultEl.textContent = `Das passende Gerät für dich ist: ${model}`;
 }
 
