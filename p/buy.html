@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AeroPhone II Konfigurator</title>
+<style>
+ @font-face {
+      font-family: 'Aeropus UI II';
+      src: url('dasfohlen1900.github.io/mini-word/assets/fonts/AeropusUIII-Regular.otf') format('woff2'),
+      font-weight: 400;
+      font-style: normal;
+    }
+body { font-family: 'Aeropus UI II'; Arial, sans-serif; background: #f4f4f4; color: #222; margin: 0; padding: 0; }
+header { background: #111; color: #fff; padding: 20px; text-align: center; }
+h1 { margin: 0; }
+.container { max-width: 800px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.2);}
+label { display: block; margin: 10px 0 5px; font-weight: bold; }
+select, input[type="checkbox"] { width: 100%; padding: 8px; font-size: 1em; margin-bottom: 15px; }
+.color-swatch { display: inline-block; width: 25px; height: 25px; border-radius: 50%; border: 1px solid #000; margin-right: 5px; vertical-align: middle; cursor: pointer; transition: border 0.2s;}
+.color-swatch.selected { border: 3px solid #007bff; } /* blauer Ring */
+#price { font-size: 1.5em; font-weight: bold; margin-top: 20px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+<h1>AeroPhone II Konfigurator</h1>
+<p>Wähle Modell, Speicher, Farbe und Zubehör</p>
+</header>
+
+<div class="container">
+<label for="model">Modell:</label>
+<select id="model">
+  <option value="II">AeroPhone II</option>
+  <option value="Pro">AeroPhone II Pro</option>
+  <option value="Premium">AeroPhone II Premium</option>
+</select>
+
+<label for="storage">Speicher:</label>
+<select id="storage"></select>
+
+<label>Farbe:</label>
+<div id="colors"></div>
+
+<label>Zubehör:</label>
+<div id="accessories">
+  <label><input type="checkbox" value="50"> Schutzhülle (+50 VIL)</label>
+  <label><input type="checkbox" value="30"> Displayschutz (+30 VIL)</label>
+  <label><input type="checkbox" value="100"> Earbuds (+100 VIL)</label>
+  <label><input type="checkbox" value="60"> Ladegerät (+60 VIL)</label>
+  <label><input type="checkbox" value="150"> Powerbank (+150 VIL)</label>
+  <label><input type="checkbox" value="80"> Stylus (+80 VIL)</label>
+</div>
+
+<div id="price"></div>
+</div>
+
+<script>
+const data = {
+  II: {
+    storage: ["128 GB", "256 GB", "512 GB"],
+    colors: ["#000","orange","#e5e5e5","#00bfa5","#ff007f","#ffff00"], // 6 Farben
+    pricesVIL: [899, 999, 1099]
+  },
+  Pro: {
+    storage: ["256 GB", "512 GB", "1 TB"],
+    colors: ["#444","#a0d8ef","#00ff88"],
+    pricesVIL: [1099, 1199, 1649]
+  },
+  Premium: {
+    storage: ["256 GB", "512 GB", "1 TB", "2 TB"],
+    colors: ["#111","#c0c0c0","#009966"],
+    pricesVIL: [1449, 1899, 1999, 2499]
+  }
+};
+
+const vilToEuro = vil => (vil*0.75).toFixed(2) + " €";
+
+const modelSelect = document.getElementById("model");
+const storageSelect = document.getElementById("storage");
+const colorsDiv = document.getElementById("colors");
+const accessories = document.querySelectorAll("#accessories input[type=checkbox]");
+const priceDiv = document.getElementById("price");
+
+let selectedColorIndex = 0;
+
+function updateStorage() {
+  const model = modelSelect.value;
+  storageSelect.innerHTML = "";
+  data[model].storage.forEach((s,i) => {
+    let option = document.createElement("option");
+    option.value = i;
+    option.textContent = s;
+    storageSelect.appendChild(option);
+  });
+  selectedColorIndex = 0; // Reset color selection
+  updateColors();
+  updatePrice();
+}
+
+function updateColors() {
+  const model = modelSelect.value;
+  colorsDiv.innerHTML = "";
+  data[model].colors.forEach((c, i) => {
+    const swatch = document.createElement("div");
+    swatch.className = "color-swatch";
+    swatch.style.background = c;
+    if(i === selectedColorIndex) swatch.classList.add("selected");
+    swatch.addEventListener("click", () => {
+      selectedColorIndex = i;
+      updateColors(); // Highlight selected
+      updatePrice();
+    });
+    colorsDiv.appendChild(swatch);
+  });
+}
+
+function updatePrice() {
+  const model = modelSelect.value;
+  const storageIndex = storageSelect.value;
+  let vil = data[model].pricesVIL[storageIndex];
+  accessories.forEach(a => { if(a.checked) vil += parseInt(a.value); });
+  priceDiv.textContent = `Preis: ${vil} VIL (${vilToEuro(vil)})`;
+}
+
+modelSelect.addEventListener("change", updateStorage);
+storageSelect.addEventListener("change", updatePrice);
+accessories.forEach(a => a.addEventListener("change", updatePrice));
+
+updateStorage(); // initial
+</script>
+
+</body>
+</html>
