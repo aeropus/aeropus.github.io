@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welches AeroPhone passt zu mir?</title>
+<style>
+body { font-family: Arial, sans-serif; background:#f4f4f4; color:#222; margin:0; padding:20px; display:flex; flex-direction:column; align-items:center; }
+.container { max-width:600px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 0 15px rgba(0,0,0,0.2);}
+h1 { text-align:center; }
+button { padding:10px 15px; font-size:1em; margin-top:10px; cursor:pointer; }
+#result { font-size:1.5em; font-weight:bold; margin-top:20px; text-align:center; }
+</style>
+</head>
+<body>
+
+<h1>Welches AeroPhone passt zu mir?</h1>
+<div class="container" id="quiz">
+  <p id="question"></p>
+  <div id="answers"></div>
+  <button id="nextBtn">Nächste Frage</button>
+</div>
+<div id="result"></div>
+
+<script>
+const questions = [
+  { q:"Wie viel Speicher brauchst du?", a:["128 GB","256 GB","512 GB","1 TB","2 TB"], scores:[0,1,2,3,4] },
+  { q:"Wie viel möchtest du ausgeben?", a:["Günstig","Mittel","Hoch","Sehr Hoch"], scores:[0,1,2,3] },
+  { q:"Nutzt du dein Handy viel für Fotos?", a:["Nein","Ja, normal","Ja, viele Fotos"], scores:[0,1,2] },
+  { q:"Spiele am Smartphone?", a:["Nie","Ab und zu","Viel"], scores:[0,1,2] },
+  { q:"Brauche ich viel Zubehör (Hülle, Stylus, Powerbank)?", a:["Nein","Ein bisschen","Ja, viele Extras"], scores:[0,1,2] },
+  { q:"Liegt Wert auf Design/Exklusivität?", a:["Nein","Ein bisschen","Sehr"], scores:[0,1,2] },
+  { q:"Brauche ich maximale Performance?", a:["Nein","Normal","Ja"], scores:[0,1,2] },
+  { q:"Willst du große Apps/Spiele installieren?", a:["Nein","Manchmal","Viele"], scores:[0,1,2] },
+  { q:"Video-Streaming wichtig?", a:["Selten","Gelegentlich","Viel"], scores:[0,1,2] },
+  { q:"Musik hören viel?", a:["Nein","Ja, normal","Ja, viel"], scores:[0,1,2] },
+  { q:"Arbeit am Handy (Office/Pro Apps)?", a:["Nein","Ein bisschen","Viel"], scores:[0,1,2] },
+  { q:"Willst du lange Akkulaufzeit?", a:["Nein","Normal","Ja, viel"], scores:[0,1,2] },
+  { q:"Brauche ich Multi-Tasking?", a:["Nein","Normal","Ja, intensiv"], scores:[0,1,2] },
+  { q:"Fotobearbeitung am Handy?", a:["Nein","Ein bisschen","Ja, oft"], scores:[0,1,2] },
+  { q:"Videoaufnahme wichtig?", a:["Nein","Ein bisschen","Ja, viel"], scores:[0,1,2] },
+  { q:"Reise häufig? (Mobiler Speicher/Backup)", a:["Nein","Manchmal","Ja, oft"], scores:[0,1,2] },
+  { q:"Lieber leicht und kompakt?", a:["Ja","Mittel","Nein"], scores:[2,1,0] },
+  { q:"Willst du die neueste OS-Version voll nutzen?", a:["Nein","Normal","Ja"], scores:[0,1,2] },
+  { q:"Benötige spezielle Hardware-Tasten?", a:["Nein","Manchmal","Ja, intensiv"], scores:[0,1,2] },
+  { q:"Willst du das Top-Modell für Profis?", a:["Nein","Vielleicht","Ja"], scores:[0,1,2] },
+];
+
+let currentQuestion = 0;
+let totalScore = 0;
+
+const questionEl = document.getElementById("question");
+const answersEl = document.getElementById("answers");
+const nextBtn = document.getElementById("nextBtn");
+const resultEl = document.getElementById("result");
+
+function showQuestion() {
+  const q = questions[currentQuestion];
+  questionEl.textContent = `${currentQuestion+1}. ${q.q}`;
+  answersEl.innerHTML = "";
+  q.a.forEach((ans,i)=>{
+    const btn = document.createElement("button");
+    btn.textContent = ans;
+    btn.onclick = ()=> { totalScore += q.scores[i]; nextQuestion(); };
+    answersEl.appendChild(btn);
+  });
+}
+
+function nextQuestion() {
+  currentQuestion++;
+  if(currentQuestion < questions.length){
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  let model = "";
+  if(totalScore <= 15) model = "AeroPhone II";
+  else if(totalScore <= 30) model = "AeroPhone II Pro";
+  else model = "AeroPhone II Premium";
+  document.getElementById("quiz").style.display = "none";
+  resultEl.textContent = `Das passende Gerät für dich ist: ${model}`;
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
